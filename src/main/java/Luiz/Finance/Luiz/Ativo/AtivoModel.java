@@ -3,6 +3,7 @@ package Luiz.Finance.Luiz.Ativo;
 import jakarta.persistence.*;
 import lombok.*;
 
+import java.math.BigDecimal;
 import java.time.OffsetDateTime;
 
 @Entity
@@ -27,8 +28,8 @@ public class AtivoModel {
     @Column(nullable = false, length = 50)
     private String tipo;
 
-    @Column(name = "cotacao_atual")
-    private Double cotacaoAtual;
+    @Column(name = "cotacao_atual", precision = 15, scale = 6)
+    private BigDecimal cotacaoAtual;
 
     @Column(name = "data_atualizacao")
     private OffsetDateTime dataAtualizacao;

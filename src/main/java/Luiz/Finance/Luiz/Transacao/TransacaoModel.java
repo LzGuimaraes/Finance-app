@@ -3,6 +3,7 @@ package Luiz.Finance.Luiz.Transacao;
 import jakarta.persistence.*;
 import lombok.*;
 
+import java.math.BigDecimal;
 import java.util.UUID;
 
 import Luiz.Finance.Luiz.CategoriaGasto.CategoriaGastoModel;
@@ -32,8 +33,8 @@ public class TransacaoModel {
     @Column(nullable = false)
     private String descricao;
 
-    @Column(nullable = false)
-    private Double valor;
+    @Column(name = "valor", precision = 15, scale = 2, nullable = false)
+    private BigDecimal valor;
 
     @Enumerated(EnumType.STRING)
     @Column(nullable = false)

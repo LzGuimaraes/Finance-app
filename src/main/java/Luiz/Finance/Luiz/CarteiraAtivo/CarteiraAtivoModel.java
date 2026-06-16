@@ -3,6 +3,7 @@ package Luiz.Finance.Luiz.CarteiraAtivo;
 import jakarta.persistence.*;
 import lombok.*;
 
+import java.math.BigDecimal;
 import java.util.UUID;
 
 import Luiz.Finance.Luiz.Ativo.AtivoModel;
@@ -29,11 +30,11 @@ public class CarteiraAtivoModel {
     @JoinColumn(name = "ativo_id", nullable = false)
     private AtivoModel ativo;
 
-    @Column(nullable = false)
-    private Double quantidade;
+    @Column(name = "quantidade", precision = 15, scale = 6, nullable = false)
+    private BigDecimal quantidade;
 
-    @Column(name = "preco_medio", nullable = false)
-    private Double precoMedio;
+    @Column(name = "preco_medio", precision = 15, scale = 6, nullable = false)
+    private BigDecimal precoMedio;
 
     @Column(name = "nota_qualidade")
     private Integer notaQualidade;

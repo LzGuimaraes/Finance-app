@@ -5,6 +5,7 @@ import Luiz.Finance.Luiz.Usuarios.UsuarioModel;
 import jakarta.persistence.*;
 import lombok.*;
 
+import java.math.BigDecimal;
 import java.util.UUID;
 
 
@@ -32,6 +33,6 @@ public class HistoricoSaldoMensalModel {
     @Column(name = "data_referencia", nullable = false)
     private java.time.LocalDate dataReferencia;
 
-    @Column(name = "saldo_consolidado", nullable = false)
-    private Double saldoConsolidado;
+    @Column(name = "saldo_consolidado", precision = 15, scale = 2, nullable = false)
+    private BigDecimal saldoConsolidado;
 }
