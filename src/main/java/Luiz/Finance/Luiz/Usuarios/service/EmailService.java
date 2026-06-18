@@ -15,8 +15,16 @@ public class EmailService {
 
     private final JavaMailSender mailSender;
 
+    // URL do backend — usada para o link de confirmação de e-mail,
+    // que é um GET tratado diretamente pelo AuthController.
     @Value("${app.url:http://localhost:8080}")
     private String appUrl;
+
+    // URL do frontend — usada para o link de reset de senha, que precisa
+    // abrir uma TELA (formulário de nova senha) e não chamar a API direto,
+    // já que /api/auth/reset-senha é um POST.
+    @Value("${app.frontend-url:http://localhost:5173}")
+    private String frontendUrl;
 
     @Value("${spring.mail.username}")
     private String remetente;
@@ -40,7 +48,7 @@ public class EmailService {
 
     @Async
     public void enviarResetSenha(String destinatario, String token) {
-        String link = appUrl + "/api/auth/reset-senha?token=" + token;
+        String link = frontendUrl + "/reset-senha?token=" + token;
         String corpo = """
                 Recebemos uma solicitação de redefinição de senha para sua conta.
                 
