@@ -1,4 +1,4 @@
-package main.java.Luiz.Finance.Luiz.Usuarios.exception;
+package Luiz.Finance.Luiz.Usuarios.exception;
 
 import org.springframework.http.HttpStatus;
 
