@@ -1,5 +1,5 @@
 import { useAuth } from '../context/useAuth'
-import { useNavigate } from 'react-router-dom'
+import { Link, useNavigate } from 'react-router-dom'
 import './Perfil.css'
 
 export default function Perfil() {
@@ -27,29 +27,54 @@ export default function Perfil() {
           </svg>
           Patrimônio
         </div>
-        <button className="botao-sair" onClick={handleSair}>Sair</button>
+        <nav className="perfil-nav">
+          <Link to="/categorias" className="perfil-nav-link">Categorias</Link>
+          <button className="botao-sair" onClick={handleSair}>Sair</button>
+        </nav>
       </header>
 
       <main className="perfil-conteudo">
-        <div className="perfil-card">
-          <div className="perfil-avatar">{iniciais}</div>
-          <h1 className="perfil-nome">{usuario.nome}</h1>
-          <p className="perfil-email">{usuario.email}</p>
+        <div className="perfil-coluna">
+          <div className="perfil-card">
+            <div className="perfil-avatar">{iniciais}</div>
+            <h1 className="perfil-nome">{usuario.nome}</h1>
+            <p className="perfil-email">{usuario.email}</p>
 
-          <dl className="perfil-detalhes">
-            <div className="perfil-detalhe-item">
-              <dt>Perfil de acesso</dt>
-              <dd>{usuario.role === 'admin' ? 'Administrador' : 'Usuário comum'}</dd>
-            </div>
-            <div className="perfil-detalhe-item">
-              <dt>E-mail confirmado</dt>
-              <dd>{usuario.emailConfirmado ? 'Sim' : 'Não'}</dd>
-            </div>
-            <div className="perfil-detalhe-item">
-              <dt>Conta criada em</dt>
-              <dd>{new Date(usuario.dataCriacao).toLocaleDateString('pt-BR')}</dd>
-            </div>
-          </dl>
+            <dl className="perfil-detalhes">
+              <div className="perfil-detalhe-item">
+                <dt>Perfil de acesso</dt>
+                <dd>{usuario.role === 'admin' ? 'Administrador' : 'Usuário comum'}</dd>
+              </div>
+              <div className="perfil-detalhe-item">
+                <dt>E-mail confirmado</dt>
+                <dd>{usuario.emailConfirmado ? 'Sim' : 'Não'}</dd>
+              </div>
+              <div className="perfil-detalhe-item">
+                <dt>Conta criada em</dt>
+                <dd>{new Date(usuario.dataCriacao).toLocaleDateString('pt-BR')}</dd>
+              </div>
+            </dl>
+          </div>
+
+          <Link to="/categorias" className="perfil-atalho">
+            <span className="perfil-atalho-icone" aria-hidden="true">
+              <svg width="18" height="18" viewBox="0 0 16 16" fill="none">
+                <rect x="2" y="2" width="5" height="5" rx="1" stroke="currentColor" strokeWidth="1.3"/>
+                <rect x="9" y="2" width="5" height="5" rx="1" stroke="currentColor" strokeWidth="1.3"/>
+                <rect x="2" y="9" width="5" height="5" rx="1" stroke="currentColor" strokeWidth="1.3"/>
+                <rect x="9" y="9" width="5" height="5" rx="1" stroke="currentColor" strokeWidth="1.3"/>
+              </svg>
+            </span>
+            <span className="perfil-atalho-texto">
+              <span className="perfil-atalho-titulo">Categorias de investimento</span>
+              <span className="perfil-atalho-descricao">Gerencie o catálogo de categorias e subcategorias</span>
+            </span>
+            <span className="perfil-atalho-seta" aria-hidden="true">
+              <svg width="16" height="16" viewBox="0 0 16 16" fill="none">
+                <path d="M6 3l5 5-5 5" stroke="currentColor" strokeWidth="1.6" strokeLinecap="round" strokeLinejoin="round"/>
+              </svg>
+            </span>
+          </Link>
         </div>
       </main>
     </div>

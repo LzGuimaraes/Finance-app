@@ -8,6 +8,8 @@ import ConfirmarEmail from './pages/ConfirmarEmail'
 import SolicitarResetSenha from './pages/SolicitarResetSenha'
 import ResetarSenha from './pages/ResetarSenha'
 import Perfil from './pages/Perfil'
+import Categorias from './pages/Categorias'
+import Subcategorias from './pages/Subcategorias'
 
 export default function App() {
   return (
@@ -25,6 +27,22 @@ export default function App() {
             element={
               <RotaProtegida>
                 <Perfil />
+              </RotaProtegida>
+            }
+          />
+          <Route
+            path="/categorias"
+            element={
+              <RotaProtegida>
+                <Categorias />
+              </RotaProtegida>
+            }
+          />
+          <Route
+            path="/categorias/:categoriaId/subcategorias"
+            element={
+              <RotaProtegida>
+                <Subcategorias />
               </RotaProtegida>
             }
           />

@@ -4,7 +4,6 @@ import Luiz.Finance.Luiz.CategoriaInvestimento.CategoriaInvestimentoModel;
 import jakarta.persistence.*;
 import lombok.*;
 
-
 @Entity
 @Table(name = "subcategorias_investimento")
 @Getter
