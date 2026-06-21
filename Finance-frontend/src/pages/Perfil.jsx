@@ -29,6 +29,7 @@ export default function Perfil() {
         </div>
         <nav className="perfil-nav">
           <Link to="/categorias" className="perfil-nav-link">Categorias</Link>
+          <Link to="/ativos" className="perfil-nav-link">Ativos</Link>
           <button className="botao-sair" onClick={handleSair}>Sair</button>
         </nav>
       </header>
@@ -68,6 +69,24 @@ export default function Perfil() {
             <span className="perfil-atalho-texto">
               <span className="perfil-atalho-titulo">Categorias de investimento</span>
               <span className="perfil-atalho-descricao">Gerencie o catálogo de categorias e subcategorias</span>
+            </span>
+            <span className="perfil-atalho-seta" aria-hidden="true">
+              <svg width="16" height="16" viewBox="0 0 16 16" fill="none">
+                <path d="M6 3l5 5-5 5" stroke="currentColor" strokeWidth="1.6" strokeLinecap="round" strokeLinejoin="round"/>
+              </svg>
+            </span>
+          </Link>
+
+          <Link to="/ativos" className="perfil-atalho">
+            <span className="perfil-atalho-icone" aria-hidden="true">
+              <svg width="18" height="18" viewBox="0 0 16 16" fill="none">
+                <path d="M2 13l3-4 2.5 2L13 4" stroke="currentColor" strokeWidth="1.3" strokeLinecap="round" strokeLinejoin="round"/>
+                <path d="M9.5 4H13v3.5" stroke="currentColor" strokeWidth="1.3" strokeLinecap="round" strokeLinejoin="round"/>
+              </svg>
+            </span>
+            <span className="perfil-atalho-texto">
+              <span className="perfil-atalho-titulo">Ativos</span>
+              <span className="perfil-atalho-descricao">Gerencie o catálogo de ativos e suas cotações</span>
             </span>
             <span className="perfil-atalho-seta" aria-hidden="true">
               <svg width="16" height="16" viewBox="0 0 16 16" fill="none">
