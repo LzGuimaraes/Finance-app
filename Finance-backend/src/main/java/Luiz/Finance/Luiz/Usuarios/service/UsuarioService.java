@@ -5,9 +5,17 @@ import Luiz.Finance.Luiz.Usuarios.RefreshToken;
 import Luiz.Finance.Luiz.Usuarios.UsuarioModel;
 import Luiz.Finance.Luiz.Usuarios.UsuarioRepository;
 import Luiz.Finance.Luiz.Usuarios.dto.AuthDTOs.*;
+import Luiz.Finance.Luiz.Usuarios.exception.EmailJaCadastradoException;
+import Luiz.Finance.Luiz.Usuarios.exception.RefreshTokenExpiradoException;
+import Luiz.Finance.Luiz.Usuarios.exception.RefreshTokenInvalidoException;
+import Luiz.Finance.Luiz.Usuarios.exception.TokenConfirmacaoInvalidoException;
+import Luiz.Finance.Luiz.Usuarios.exception.TokenResetExpiradoException;
+import Luiz.Finance.Luiz.Usuarios.exception.TokenResetInvalidoException;
+import Luiz.Finance.Luiz.Usuarios.exception.UsuarioNaoEncontradoException;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Lazy;
+import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.DisabledException;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
@@ -19,7 +27,6 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.time.OffsetDateTime;
-import java.util.Optional;
 import java.util.UUID;
 
 @Service
@@ -44,15 +51,17 @@ public class UsuarioService implements UserDetailsService {
     // ── Cadastro ─────────────────────────────────────────────────
     @Transactional
     public MensagemResponse cadastrar(CadastroRequest request) {
-        if (usuarioRepository.existsByEmail(request.email())) {
-            throw new IllegalArgumentException("E-mail já está em uso.");
+        String email = request.email().toLowerCase();
+
+        if (usuarioRepository.existsByEmail(email)) {
+            throw new EmailJaCadastradoException(email);
         }
 
         String tokenConfirmacao = UUID.randomUUID().toString();
 
         UsuarioModel usuario = UsuarioModel.builder()
                 .nome(request.nome())
-                .email(request.email().toLowerCase())
+                .email(email)
                 .senhaHash(passwordEncoder.encode(request.senha()))
                 .role(RoleUsuario.usuario_comum)
                 .dataCriacao(OffsetDateTime.now())
@@ -60,7 +69,15 @@ public class UsuarioService implements UserDetailsService {
                 .tokenConfirmacaoEmail(tokenConfirmacao)
                 .build();
 
-        usuarioRepository.save(usuario);
+        try {
+            usuarioRepository.save(usuario);
+        } catch (DataIntegrityViolationException ex) {
+            // Cobre a corrida entre o existsByEmail() acima e o save():
+            // duas requisições simultâneas com o mesmo e-mail podem passar
+            // ambas pela verificação e colidir só na constraint UNIQUE do banco.
+            throw new EmailJaCadastradoException(email);
+        }
+
         emailService.enviarConfirmacaoEmail(usuario.getEmail(), tokenConfirmacao);
 
         return new MensagemResponse("Cadastro realizado! Verifique seu e-mail para ativar a conta.");
@@ -75,6 +92,8 @@ public class UsuarioService implements UserDetailsService {
             throw new DisabledException("E-mail ainda não confirmado. Verifique sua caixa de entrada.");
         }
 
+        // BadCredentialsException é lançada pelo AuthenticationManager
+        // e já tratada no GlobalExceptionHandler.
         authenticationManager.authenticate(
                 new UsernamePasswordAuthenticationToken(request.email().toLowerCase(), request.senha())
         );
@@ -94,10 +113,10 @@ public class UsuarioService implements UserDetailsService {
     @Transactional
     public TokenResponse refreshToken(RefreshTokenRequest request) {
         RefreshToken refreshToken = refreshTokenService.buscarPorToken(request.refreshToken())
-                .orElseThrow(() -> new IllegalArgumentException("Refresh token não encontrado."));
+                .orElseThrow(RefreshTokenInvalidoException::new);
 
         if (!refreshToken.isValido()) {
-            throw new IllegalArgumentException("Refresh token expirado ou revogado.");
+            throw new RefreshTokenExpiradoException();
         }
 
         UsuarioModel usuario = refreshToken.getUsuario();
@@ -116,7 +135,7 @@ public class UsuarioService implements UserDetailsService {
     @Transactional
     public MensagemResponse confirmarEmail(String token) {
         UsuarioModel usuario = usuarioRepository.findByTokenConfirmacaoEmail(token)
-                .orElseThrow(() -> new IllegalArgumentException("Token de confirmação inválido."));
+                .orElseThrow(TokenConfirmacaoInvalidoException::new);
 
         usuario.setEmailConfirmado(true);
         usuario.setTokenConfirmacaoEmail(null);
@@ -128,7 +147,7 @@ public class UsuarioService implements UserDetailsService {
     // ── Perfil ───────────────────────────────────────────────────
     public PerfilResponse buscarPerfil(String email) {
         UsuarioModel usuario = usuarioRepository.findByEmail(email)
-                .orElseThrow(() -> new UsernameNotFoundException("Usuário não encontrado."));
+                .orElseThrow(UsuarioNaoEncontradoException::new);
 
         return new PerfilResponse(
                 usuario.getId(),
@@ -150,17 +169,19 @@ public class UsuarioService implements UserDetailsService {
             usuarioRepository.save(usuario);
             emailService.enviarResetSenha(usuario.getEmail(), token);
         });
+        // Mensagem deliberadamente genérica mesmo se o e-mail não existir,
+        // para não revelar quais e-mails estão cadastrados na base.
         return new MensagemResponse("Se o e-mail existir, você receberá as instruções em breve.");
     }
 
     @Transactional
     public MensagemResponse resetarSenha(ResetSenhaRequest request) {
         UsuarioModel usuario = usuarioRepository.findByTokenResetSenha(request.token())
-                .orElseThrow(() -> new IllegalArgumentException("Token de reset inválido."));
+                .orElseThrow(TokenResetInvalidoException::new);
 
         if (usuario.getExpiracaoTokenReset() == null ||
                 OffsetDateTime.now().isAfter(usuario.getExpiracaoTokenReset())) {
-            throw new IllegalArgumentException("Token de reset expirado. Solicite um novo.");
+            throw new TokenResetExpiradoException();
         }
 
         usuario.setSenhaHash(passwordEncoder.encode(request.novaSenha()));
