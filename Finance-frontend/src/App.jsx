@@ -11,6 +11,7 @@ import Perfil from './pages/Perfil'
 import Categorias from './pages/Categorias'
 import Subcategorias from './pages/Subcategorias'
 import Ativos from './pages/Ativos'
+import CarteiraAtivos from './pages/CarteiraAtivos'
 
 export default function App() {
   return (
@@ -52,6 +53,14 @@ export default function App() {
             element={
               <RotaProtegida>
                 <Ativos />
+              </RotaProtegida>
+            }
+          />
+          <Route
+            path="/carteira"
+            element={
+              <RotaProtegida>
+                <CarteiraAtivos />
               </RotaProtegida>
             }
           />

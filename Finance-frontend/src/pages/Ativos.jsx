@@ -122,6 +122,7 @@ export default function Ativos() {
           Patrimônio
         </Link>
         <div className="admin-cabecalho-acoes">
+          <Link to="/carteira" className="link-secundario">Minha carteira</Link>
           <Link to="/perfil" className="link-secundario">Meu perfil</Link>
           <button className="botao-sair" onClick={handleSair}>Sair</button>
         </div>

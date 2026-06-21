@@ -16,7 +16,8 @@
   color: var(--cor-tinta);
 }
 
-.campo input {
+.campo input,
+.campo select {
   font-family: var(--fonte-corpo);
   font-size: 0.95rem;
   padding: 0.7rem 0.85rem;
@@ -31,12 +32,21 @@
   color: #a8a193;
 }
 
-.campo input:focus {
+.campo input:focus,
+.campo select:focus {
   border-color: var(--cor-verde);
 }
 
-.campo input[aria-invalid="true"] {
+.campo input[aria-invalid="true"],
+.campo select[aria-invalid="true"] {
   border-color: var(--cor-erro);
+}
+
+.campo input:disabled,
+.campo select:disabled {
+  background: var(--cor-papel-alt);
+  color: var(--cor-tinta-suave);
+  cursor: not-allowed;
 }
 
 .campo-erro {
