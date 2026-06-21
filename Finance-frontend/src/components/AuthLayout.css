@@ -1,0 +1,153 @@
+.auth-layout {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
+  min-height: 100vh;
+}
+
+/* ── Painel editorial esquerdo ──────────────────────────────── */
+.auth-painel {
+  background: linear-gradient(165deg, var(--cor-verde-escuro) 0%, var(--cor-verde) 100%);
+  color: var(--cor-papel);
+  display: flex;
+  align-items: center;
+  padding: 4rem 3.5rem;
+  position: relative;
+  overflow: hidden;
+}
+
+.auth-painel::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background-image:
+    radial-gradient(circle at 85% 15%, rgba(201, 162, 75, 0.18), transparent 45%),
+    radial-gradient(circle at 10% 90%, rgba(255, 255, 255, 0.06), transparent 40%);
+  pointer-events: none;
+}
+
+.auth-painel-conteudo {
+  position: relative;
+  max-width: 30rem;
+}
+
+.auth-marca {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+  font-family: var(--fonte-display);
+  font-weight: 600;
+  font-size: 1.15rem;
+  letter-spacing: 0.01em;
+  margin-bottom: 3rem;
+}
+
+.auth-marca-icone {
+  display: inline-flex;
+  color: var(--cor-dourado);
+}
+
+.auth-marca-mobile {
+  display: none;
+  color: var(--cor-verde-escuro);
+  margin-bottom: 2rem;
+}
+
+.auth-painel-titulo {
+  font-family: var(--fonte-display);
+  font-weight: 600;
+  font-size: clamp(2rem, 3vw, 2.6rem);
+  line-height: 1.2;
+  margin: 0 0 1.25rem;
+}
+
+.auth-painel-texto {
+  font-size: 1.02rem;
+  line-height: 1.65;
+  color: rgba(250, 248, 244, 0.85);
+  margin: 0 0 3rem;
+  max-width: 26rem;
+}
+
+/* Ticker decorativo — referência ao domínio (cotações de ativos) */
+.auth-ticker {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.6rem;
+  border-top: 1px solid rgba(250, 248, 244, 0.18);
+  padding-top: 1.5rem;
+}
+
+.auth-ticker-item {
+  display: flex;
+  flex-direction: column;
+  gap: 0.2rem;
+  padding: 0.55rem 0.85rem;
+  background: rgba(250, 248, 244, 0.07);
+  border: 1px solid rgba(250, 248, 244, 0.12);
+  border-radius: var(--raio);
+  font-family: var(--fonte-corpo);
+}
+
+.auth-ticker-rotulo {
+  font-size: 0.62rem;
+  letter-spacing: 0.08em;
+  color: rgba(250, 248, 244, 0.6);
+}
+
+.auth-ticker-valor {
+  font-size: 0.85rem;
+  font-weight: 600;
+  color: #d9c98a;
+}
+
+/* ── Área do formulário ─────────────────────────────────────── */
+.auth-form-area {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 3rem 2rem;
+  background: var(--cor-papel);
+}
+
+.auth-form-card {
+  width: 100%;
+  max-width: 24rem;
+}
+
+.auth-form-titulo {
+  font-family: var(--fonte-display);
+  font-weight: 600;
+  font-size: 1.7rem;
+  margin: 0 0 0.4rem;
+  color: var(--cor-tinta);
+}
+
+.auth-form-subtitulo {
+  font-size: 0.92rem;
+  color: var(--cor-tinta-suave);
+  margin: 0 0 2rem;
+  line-height: 1.5;
+}
+
+@media (max-width: 880px) {
+  .auth-layout {
+    grid-template-columns: 1fr;
+  }
+
+  .auth-painel {
+    display: none;
+  }
+
+  .auth-marca-mobile {
+    display: inline-flex;
+  }
+
+  .auth-form-area {
+    padding: 2.5rem 1.5rem;
+    align-items: flex-start;
+    padding-top: 4rem;
+  }
+}

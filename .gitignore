@@ -1,0 +1,105 @@
+# ============================================
+# ARQUIVOS DE AMBIENTE E SEGREDOS
+# ============================================
+.env
+.env.local
+.env.*.local
+*.env
+application-local.yml
+application-dev.yml
+application-secret.yml
+*.secret.*
+*.key
+*.pem
+*.crt
+
+# ============================================
+# DEPENDÊNCIAS E BUILDS
+# ============================================
+# Java / Maven
+target/
+pom.xml.tag
+pom.xml.releaseBackup
+pom.xml.versionsBackup
+pom.xml.next
+release.properties
+dependency-reduced-pom.xml
+buildNumber.properties
+.mvn/timing.properties
+.mvn/wrapper/maven-wrapper.jar
+
+# Node / React
+node_modules/
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+package-lock.json    # (opcional – se usar npm, pode manter; se usar yarn, comente)
+yarn.lock            # (opcional – se usar yarn, mantenha)
+dist/
+build/
+.parcel-cache/
+.vite/
+
+# ============================================
+# ARQUIVOS DE IDE E EDITORES
+# ============================================
+# IntelliJ IDEA
+.idea/
+*.iml
+*.iws
+*.ipr
+out/
+.idea_modules/
+
+# VS Code
+.vscode/
+*.code-workspace
+.history/
+
+# Eclipse
+.classpath
+.project
+.settings/
+bin/
+*.tmp
+*.bak
+
+# NetBeans
+nbproject/
+nbactions.xml
+*.nb-gradle
+
+# ============================================
+# LOGS E ARQUIVOS TEMPORÁRIOS
+# ============================================
+*.log
+*.tmp
+*.temp
+*.dump
+*.hprof
+*.heapdump
+logs/
+temp/
+
+# ============================================
+# ARQUIVOS DO SISTEMA OPERACIONAL
+# ============================================
+.DS_Store
+Thumbs.db
+desktop.ini
+*.swp
+*.swo
+*~
+
+# ============================================
+# DOCKER / CONTAINERS (opcional)
+# ============================================
+# docker-compose.override.yml   # descomente se quiser ignorar sobrescritas locais
+# .dockerignore                  # se quiser ignorar também
+
+# ============================================
+# BACKUP DE ARQUIVOS DE CONFIGURAÇÃO (ex: application.properties.old)
+# ============================================
+*.orig
+*.old
+*.backup

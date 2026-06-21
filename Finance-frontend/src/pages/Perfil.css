@@ -1,0 +1,107 @@
+.perfil-pagina {
+  min-height: 100vh;
+  background: var(--cor-papel-alt);
+}
+
+.perfil-cabecalho {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 1.2rem 2rem;
+  background: var(--cor-branco);
+  border-bottom: 1px solid var(--cor-borda);
+}
+
+.perfil-marca {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+  font-family: var(--fonte-display);
+  font-weight: 600;
+  font-size: 1.05rem;
+  color: var(--cor-verde-escuro);
+}
+
+.botao-sair {
+  background: none;
+  border: 1px solid var(--cor-borda);
+  border-radius: var(--raio);
+  padding: 0.5rem 1rem;
+  font-size: 0.85rem;
+  font-weight: 600;
+  color: var(--cor-tinta);
+  cursor: pointer;
+  transition: border-color 0.15s ease, color 0.15s ease;
+}
+
+.botao-sair:hover {
+  border-color: var(--cor-erro);
+  color: var(--cor-erro);
+}
+
+.perfil-conteudo {
+  display: flex;
+  justify-content: center;
+  padding: 4rem 1.5rem;
+}
+
+.perfil-card {
+  background: var(--cor-branco);
+  border: 1px solid var(--cor-borda);
+  border-radius: 8px;
+  padding: 2.5rem 2.5rem 2rem;
+  max-width: 24rem;
+  width: 100%;
+  text-align: center;
+  box-shadow: var(--sombra-painel);
+}
+
+.perfil-avatar {
+  width: 4rem;
+  height: 4rem;
+  border-radius: 50%;
+  background: var(--cor-verde);
+  color: var(--cor-papel);
+  font-family: var(--fonte-display);
+  font-weight: 600;
+  font-size: 1.4rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin: 0 auto 1.2rem;
+}
+
+.perfil-nome {
+  font-family: var(--fonte-display);
+  font-size: 1.4rem;
+  margin: 0 0 0.2rem;
+}
+
+.perfil-email {
+  color: var(--cor-tinta-suave);
+  font-size: 0.9rem;
+  margin: 0 0 1.8rem;
+}
+
+.perfil-detalhes {
+  text-align: left;
+  border-top: 1px solid var(--cor-borda);
+  padding-top: 1.3rem;
+  margin: 0;
+}
+
+.perfil-detalhe-item {
+  display: flex;
+  justify-content: space-between;
+  padding: 0.5rem 0;
+  font-size: 0.88rem;
+}
+
+.perfil-detalhe-item dt {
+  color: var(--cor-tinta-suave);
+}
+
+.perfil-detalhe-item dd {
+  margin: 0;
+  font-weight: 600;
+}
