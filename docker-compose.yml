@@ -1,24 +1,6 @@
 version: '3.8'
 
 services:
-  # ==================== BANCO DE DADOS ====================
-  db:
-    image: postgres:15-alpine
-    container_name: patrimonio-db
-    environment:
-      POSTGRES_DB: ${POSTGRES_DB}
-      POSTGRES_USER: ${POSTGRES_USER}
-      POSTGRES_PASSWORD: ${DB_PASSWORD}   # Puxa do .env
-    ports:
-      - "5432:5432"                       # Expõe para você acessar localmente (opcional)
-    volumes:
-      - pg_data:/var/lib/postgresql/data
-    healthcheck:
-      test: ["CMD-SHELL", "pg_isready -U postgres"]
-      interval: 10s
-      timeout: 5s
-      retries: 5
-
   # ==================== BACKEND (SPRING BOOT) ====================
   backend:
     build: ./Finance-backend
@@ -26,15 +8,15 @@ services:
     ports:
       - "8080:8080"
     environment:
-      # Banco de dados
+      # Banco de dados (Neon)
       SPRING_DATASOURCE_URL: ${DB_URL}
-      SPRING_DATASOURCE_USERNAME: postgres
+      SPRING_DATASOURCE_USERNAME: ${DB_USER}
       SPRING_DATASOURCE_PASSWORD: ${DB_PASSWORD}
 
       # JWT
       JWT_SECRET: ${JWT_SECRET}
 
-      # E-mail (todas as propriedades)
+      # E-mail
       SPRING_MAIL_HOST: smtp.gmail.com
       SPRING_MAIL_PORT: "587"
       SPRING_MAIL_USERNAME: ${MAIL_USERNAME}
@@ -44,12 +26,8 @@ services:
 
       APP_URL: ${APP_URL}
       APP_FRONTEND_URL: ${APP_FRONTEND_URL}
-
-      # CORS — precisa bater com a origem real de onde o frontend é servido
       APP_CORS_ALLOWED_ORIGINS: ${APP_CORS_ALLOWED_ORIGINS}
-    depends_on:
-      db:
-        condition: service_healthy
+
     restart: on-failure
 
   # ==================== FRONTEND (REACT + VITE) ====================
@@ -57,13 +35,10 @@ services:
     build:
       context: ./Finance-frontend
       args:
-        - VITE_API_URL=${VITE_API_URL}      # Passa a URL para o build do Vite
+        - VITE_API_URL=${VITE_API_URL}
     container_name: patrimonio-frontend
     ports:
-      - "5173:80"                         # Mapeia a porta 80 do container para a 5173 do host
+      - "5173:80"
     depends_on:
       - backend
     restart: on-failure
-
-volumes:
-  pg_data:
